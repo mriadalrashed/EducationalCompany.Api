@@ -19,18 +19,18 @@ namespace EducationalCompany.Api.Domain.Entities
         public Course(string name, string description, int durationHours, decimal price)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
-            Description = description ?? throw new ArgumentNullException(nameof(name)); ;
+            Description = description ?? throw new ArgumentNullException(nameof(description)); ;
             DurationHours = durationHours > 0 ? durationHours : throw new ArgumentException("duration must be positive");
-            Price = price >= 0 ? price : throw new ArgumentException("price can't be nagtive");
+            Price = price >= 0 ? price : throw new ArgumentException("price can't be negtive");
             CreatedAt = DateTime.UtcNow;
         }
 
         public void Update(string name, string description, int durationHours, decimal price)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
-            Description = description ?? throw new ArgumentNullException(nameof(name)); ;
+            Description = description ?? throw new ArgumentNullException(nameof(description)); ;
             DurationHours = durationHours > 0 ? durationHours : throw new ArgumentException("duration must be positive");
-            Price = price >= 0 ? price : throw new ArgumentException("price can't be nagtive");
+            Price = price >= 0 ? price : throw new ArgumentException("price can't be negtive");
             UpdatedAt = DateTime.UtcNow;
         }
     }
