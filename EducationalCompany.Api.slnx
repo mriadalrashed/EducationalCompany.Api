@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="EducationalCompany.Api.Application/EducationalCompany.Api.Application.csproj" />
+  <Project Path="EducationalCompany.Api.Domain/EducationalCompany.Api.Domain.csproj" />
+  <Project Path="EducationalCompany.Api.Infrastructure/EducationalCompany.Api.Infrastructure.csproj" />
+  <Project Path="EducationalCompany.Api.Presentation/EducationalCompany.Api.Presentation.csproj" />
+</Solution>
