@@ -1,0 +1,21 @@
+Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+Build folders
+bin/
+obj/
+
+Rider
+.idea/
+
+NuGet
+*.nupkg
+packages/
+
+OS files
+Thumbs.db
+.DS_Store
