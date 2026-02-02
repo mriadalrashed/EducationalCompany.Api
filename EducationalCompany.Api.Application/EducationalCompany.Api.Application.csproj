@@ -14,4 +14,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EducationalCompany.Api.Domain\EducationalCompany.Api.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
