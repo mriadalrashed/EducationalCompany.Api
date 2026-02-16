@@ -26,7 +26,7 @@ namespace EducationalCompany.Api.Application.Services
            var course = await _unitOfWork.Courses.GetByIdAsync(id);
 
            if (course == null)
-               throw new NotFoundException($"Course with id {id} not found.");
+               throw new KeyNotFoundException($"Course with id {id} not found.");
 
            return MapToDto(course);
         }
