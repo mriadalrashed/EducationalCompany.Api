@@ -10,7 +10,8 @@ namespace EducationalCompany.Api.Application.Interfaces
         Task<CourseOccasionDto> CreateOccasionAsync(CreateCourseOccasionDto dto);
         Task<CourseOccasionDto> UpdateOccasionAsync(UpdateCourseOccasionDto dto);
         Task<bool> DeleteOccasionAsync(Guid id);
-        Task<IEnumerable<CourseOccasionDto>> GetOccasionsByIdAsync(Guid courseId);
+        Task<IEnumerable<CourseOccasionDto>> GetOccasionsByCourseIdAsync(Guid courseId);
+        Task<IEnumerable<CourseOccasionDto>> GetUpComingOccasionsAsync();
         Task AssignTeacherAsync (Guid occasionId, AssignTeacherDto dto);
         Task <CourseOccasionDto> GetOccasionWithRegstrationsAsync (Guid id);
         Task <bool> IsOccasionFullAsync (Guid id);
