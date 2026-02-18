@@ -95,7 +95,7 @@ public class CourseOccasionService : ICourseOccasionService
         if (occasion == null)
             throw new KeyNotFoundException($"courseoccasion with id {occasionId} not found.");
 
-        var teacher = (await _unitOfWork.Teachers.GetByIdAsync(dto.TeacherId);
+        var teacher = (await _unitOfWork.Teachers.GetByIdAsync(dto.TeacherId));
         if (teacher == null)
             throw new InvalidOperationException($"teacher with id {dto.TeacherId} not found.");
 
@@ -118,12 +118,12 @@ public class CourseOccasionService : ICourseOccasionService
         return await _unitOfWork.CourseOccasion.IsOccasionFullAsync(id);
     }
 
-    private async Task<IEnumerable<CourseOccasionDto>> MaptoDto(IEnumerable<CourseOccasion> occasions)
+    private async Task<IEnumerable<CourseOccasionDto>> MapToDto(IEnumerable<CourseOccasion> occasions)
     {
         var dtos = new List<CourseOccasionDto>();
         foreach (var occasion in occasions)
         {
-            dtos.Add(await MaptoDto(occasion));
+            dtos.Add(await MapToDto(occasion));
         } 
         return dtos;
     }
