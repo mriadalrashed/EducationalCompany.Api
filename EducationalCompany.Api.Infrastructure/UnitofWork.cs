@@ -6,7 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace EducationalCompany.Api.Infrastructure
 {
-    public interface IUnitofWorkIUnitofWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         ICourseRepository Courses{ get; }
 
@@ -24,13 +24,13 @@ namespace EducationalCompany.Api.Infrastructure
         Task RollbackTransactionAsync();
     }
 
-    public class UnitofWork : IUnitofWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
         private readonly IMemoryCache _cache;
         private IDbContextTransaction _currentTransaction;
 
-        public UnitofWork(ApplicationDbContext context , IMemoryCache cache)
+        public UnitOfWork(ApplicationDbContext context , IMemoryCache cache)
         {
             _context = context;
             _cache = Cache;
@@ -101,19 +101,11 @@ namespace EducationalCompany.Api.Infrastructure
                 }
             }
         }
-
         public void Dispose()
         {
             _context.Dispose();
             _currentTransaction?.Dispose();
         }
-
-
-
     }
-
-
-
-
-    
+   
 }
