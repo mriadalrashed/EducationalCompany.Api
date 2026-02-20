@@ -1,6 +1,7 @@
 ﻿using EducationalCompany.Api.Infrastructure.Repositories;
 using EducationalCompany.Api.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Caching.Memory;
 
 
 namespace EducationalCompany.Api.Infrastructure
@@ -26,11 +27,13 @@ namespace EducationalCompany.Api.Infrastructure
     public class UnitofWork : IUnitofWork
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMemoryCache _cache;
         private IDbContextTransaction _currentTransaction;
 
-        public UnitofWork(ApplicationDbContext context)
+        public UnitofWork(ApplicationDbContext context , IMemoryCache cache)
         {
             _context = context;
+            _cache = Cache;
             Courses = new CourseRepository(_context);
             CourseOccasions = new CourseOccasionRepository(_context);
             CourseRegistrations = new CourseRegistrationRepository(_context);
