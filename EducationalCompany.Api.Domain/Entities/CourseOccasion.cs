@@ -29,7 +29,7 @@ namespace EducationalCompany.Api.Domain.Entities
                 throw new ArgumentException("endDate must be after startDate");
             }
 
-            if (MaxParticipants <= 0)
+            if (maxParticipants <= 0)
             {
                 throw new ArgumentException("maxParticipants must be positive");
             }
@@ -49,7 +49,7 @@ namespace EducationalCompany.Api.Domain.Entities
             {
                 throw new ArgumentException("endDate must be after startDate");
             }
-            if (MaxParticipants <= 0)
+            if (maxParticipants <= 0)
             {
                 throw new ArgumentException("maxParticipants must be positive");
             }
