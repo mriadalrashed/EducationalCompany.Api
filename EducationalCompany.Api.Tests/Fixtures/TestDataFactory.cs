@@ -1,0 +1,32 @@
+﻿using EducationalCompany.Api.Domain.Entities;
+
+namespace EducationalCompany.Api.Tests.Fixtures
+{
+    public static class TestDataFactory
+    {
+        public static Course CreateCourse()
+        {
+            return new Course("test course", "test description", 40, 1000);
+        }
+        public static Participant CreateValidParticipant(string email = null)
+        {
+            return new Participant("test firstName", "test lastName", email ?? $"test.{Guid.NewGuid()}@example.com", "070000000", "123 centrum");
+        }
+
+        public static List<Participant> CreateMultipleParticipants(int count)
+        {
+            var participants = new List<Participant>();
+            for (int i = 0; i < count; i++)
+            {
+                participants.Add(new Participant($"First {i}", $"Last {i}", $"User{i}@example.com", $"07000000{i:D4}", $"{i} Test ave"));
+            }
+            return participants;
+        }
+
+        public static Participant CreateParticpantWithRegistration()
+        {
+            return CreateValidParticipant("Registred.User@gmail.com");
+        }
+    }
+}
+    
