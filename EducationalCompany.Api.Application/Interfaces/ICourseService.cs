@@ -3,13 +3,14 @@ using EducationalCompany.Api.Domain.Entities;
 
 namespace EducationalCompany.Api.Application.Interfaces
 {
+    // Interface that defines operations for course management
     public interface ICourseService
     {
-        Task<IEnumerable<CourseDto>> GetAllCoursesAsync();
-        Task<CourseDto> GetCourseByIdAsync(Guid id);
-        Task<CourseDto> CreateCourseAsync(CreateCourseDto dto);
-        Task<CourseDto> UpdateCourseAsync(UpdateCourseDto dto);
-        Task<bool> DeleteCourseAsync(Guid id);
-        Task<IEnumerable<CourseDto>> SearchCoursesAsync(string searchTerm);
+        Task<IEnumerable<CourseDto>> GetAllCoursesAsync(); // Get all courses
+        Task<CourseDto> GetCourseByIdAsync(Guid id); // Get course by ID
+        Task<CourseDto> CreateCourseAsync(CreateCourseDto dto); // Create new course
+        Task<CourseDto> UpdateCourseAsync(UpdateCourseDto dto); // Update course
+        Task<bool> DeleteCourseAsync(Guid id); // Delete course
+        Task<IEnumerable<CourseDto>> SearchCoursesAsync(string searchTerm); // Search courses by keyword
     }
 }
