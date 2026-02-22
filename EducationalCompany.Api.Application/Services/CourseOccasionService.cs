@@ -52,7 +52,7 @@ public class CourseOccasionService : ICourseOccasionService
         await _unitOfWork.Occasions.AddAsync(Occasion);
 
         var OccasionsWithDetails =
-            await _unitOfWork.CourseOccasions.GetWithRegistrationsAsync(Occasion.id);
+            await _unitOfWork.CourseOccasions.GetWithRegistrationsAsync(Occasion.Id);
 
         return await MapToDto(OccasionsWithDetails ?? Occasion);
     }
@@ -71,7 +71,7 @@ public class CourseOccasionService : ICourseOccasionService
             throw new KeyNotFoundException($"courseoccasion with id {dto.CourseId} not found.");
 
         var registrations =
-            await _unitOfWork.CourseRegistrations.GetRegistrationByOccasionAsync(id);
+            await _unitOfWork.CourseRegistrations.GetRegistrationsByOccasionAsync(id);
 
         if (registrations.Any())
             throw new InvalidOperationException($"can not update occasion that has registration.");
@@ -130,7 +130,7 @@ public class CourseOccasionService : ICourseOccasionService
 
         occasion.AssignTeacher(dto.TeacherId);
 
-        await _unitOfWork.CourseOccasion.UpdateAsync(occasion);
+        await _unitOfWork.CourseOccasions.UpdateAsync(occasion);
     }
 
     // Get occasion with registrations
@@ -147,7 +147,7 @@ public class CourseOccasionService : ICourseOccasionService
     // Check if occasion is full
     public async Task<bool> IsOccasionFullAsync(Guid id)
     {
-        return await _unitOfWork.CourseOccasion.IsOccasionFullAsync(id);
+        return await _unitOfWork.CourseOccasions.IsOccasionFullAsync(id);
     }
 
     // Map list of entities to DTO list
