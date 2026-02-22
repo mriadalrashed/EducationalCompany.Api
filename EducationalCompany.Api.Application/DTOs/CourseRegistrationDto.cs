@@ -1,5 +1,6 @@
 ﻿namespace EducationalCompany.Api.Application.DTOs
 {
+    // DTO used to return course registration data
     public class CourseRegistrationDto
     {
         public Guid ParticipantId { get;  set; }
@@ -14,13 +15,15 @@
         public CourseOccasionDto CourseOccasion { get;  set; }
     }
 
+    // DTO used when creating a course registration
     public class CreateCourseRegistrationDto
     {
         public Guid ParticipantId { get; set; }
         public Guid CourseOccasionId { get; set; }
     }
+    // DTO used when updating registration status
     public class UpdateCourseRegistrationDto
     {
-        public string Status { get; set; }
-    } 
+        public string Status { get; set; } // New status
+    }  
 }
