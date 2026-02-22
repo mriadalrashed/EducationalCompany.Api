@@ -4,7 +4,8 @@ using EducationalCompany.Api.Infrastructure;
 using EducationalCompany.Api.Application.Interfaces;
 
 namespace EducationalCompany.Api.Application.Services;
-    public class ParticipantService : IParticipantService
+
+public class ParticipantService : IParticipantService
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -94,5 +95,5 @@ namespace EducationalCompany.Api.Application.Services;
         };
     }
 
-    }
+}
 
