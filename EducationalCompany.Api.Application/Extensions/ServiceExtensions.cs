@@ -4,8 +4,10 @@ using EducationalCompany.Api.Application.Interfaces;
 
 namespace EducationalCompany.Api.Application.Extensions
 {
+    // Extension class used to register application services in DI container
     public static class ServiceExtensions
     {
+        // Registers all Application layer services
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<ICourseService, CourseService>();
