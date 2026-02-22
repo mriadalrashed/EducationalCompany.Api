@@ -2,6 +2,7 @@
 
 namespace EducationalCompany.Api.Domain.Entities
 {
+    // Represents a student who can register for course occasions
     public class Participant : BaseEntity
     {
         public string FirstName { get; private set; }
@@ -14,12 +15,15 @@ namespace EducationalCompany.Api.Domain.Entities
 
         public string Address { get; private set; }
 
+        // List of course registrations for this participant
         public ICollection<CourseRegistration> Registrations { get; private set; } = new List<CourseRegistration>();
 
+        // Required by EF Core
         protected Participant()
         {
         }
 
+        // Creates a new participant with basic validation
         public Participant(string firstName, string lastName, string email, string phone, string address)
         {
             FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
@@ -30,6 +34,7 @@ namespace EducationalCompany.Api.Domain.Entities
             CreatedAt = DateTime.UtcNow;
         }
 
+        // Updates participant personal information
         public void Update(string firstName, string lastName, string email, string phone, string address)
         {
             FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
