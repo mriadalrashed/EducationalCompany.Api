@@ -12,8 +12,8 @@ namespace EducationalCompany.Api.Application.Interfaces
         Task<bool> DeleteRegistrationAsync(Guid id);
         Task<IEnumerable<CourseRegistrationDto>> GetRegistrationsByParticipantAsync(Guid participantId);
         Task<IEnumerable<CourseRegistrationDto>> GetRegistrationsByOccasionAsync(Guid courseOccasionId);
-        Task<CourseRegistrationDto> GetRegistrationsDetailsAsync(Guid id);
-        Task ConfirmRegistrationssAsync (Guid id);
+        Task<CourseRegistrationDto> GetRegistrationDetailsAsync(Guid id);
+        Task ConfirmRegistrationsAsync (Guid id);
         Task CancelRegistrationAsync (Guid id);
     }  
 }
