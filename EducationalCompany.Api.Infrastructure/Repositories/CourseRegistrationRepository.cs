@@ -7,20 +7,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EducationalCompany.Infrastructure.Repositories;
 
+// Repository contract for CourseRegistration entity
 public interface ICourseRegistrationRepository : IRepository<CourseRegistration>
 {
-    Task<IEnumerable<CourseRegistration>> GetRegistrationsByParticipantAsync(Guid participantId);
-    Task<IEnumerable<CourseRegistration>> GetRegistrationsByOccasionAsync(Guid occasionId);
-    Task<CourseRegistration> GetRegistrationDetailsAsync(Guid id);
-    Task<bool> HasRegistrationAsync(Guid participantId, Guid occasionId);
+    Task<IEnumerable<CourseRegistration>> GetRegistrationsByParticipantAsync(Guid participantId); // Get registrations by participant
+    Task<IEnumerable<CourseRegistration>> GetRegistrationsByOccasionAsync(Guid occasionId); // Get registrations by course occasion
+    Task<CourseRegistration> GetRegistrationDetailsAsync(Guid id); // Get registration with full details
+    Task<bool> HasRegistrationAsync(Guid participantId, Guid occasionId); // Check if registration exists
 }
 
+// Repository implementation for CourseRegistration entity
 public class CourseRegistrationRepository : BaseRepository<CourseRegistration>, ICourseRegistrationRepository
 {
     public CourseRegistrationRepository(ApplicationDbContext context) : base(context)
     {
     }
 
+    // Get all registrations for a specific participant (including course details)
     public async Task<IEnumerable<CourseRegistration>> GetRegistrationsByParticipantAsync(Guid participantId)
     {
         return await _context.CourseRegistrations
@@ -30,6 +33,7 @@ public class CourseRegistrationRepository : BaseRepository<CourseRegistration>, 
             .ToListAsync();
     }
 
+    // Get all registrations for a specific course occasion (including participant details)
     public async Task<IEnumerable<CourseRegistration>> GetRegistrationsByOccasionAsync(Guid occasionId)
     {
         return await _context.CourseRegistrations
@@ -38,6 +42,7 @@ public class CourseRegistrationRepository : BaseRepository<CourseRegistration>, 
             .ToListAsync();
     }
 
+    // Get registration with related participant and course data
     public async Task<CourseRegistration> GetRegistrationDetailsAsync(Guid id)
     {
         return await _context.CourseRegistrations
@@ -47,6 +52,7 @@ public class CourseRegistrationRepository : BaseRepository<CourseRegistration>, 
             .FirstOrDefaultAsync(r => r.Id == id);
     }
 
+    // Check if a participant is already registered in a course occasion
     public async Task<bool> HasRegistrationAsync(Guid participantId, Guid occasionId)
     {
         return await _context.CourseRegistrations
