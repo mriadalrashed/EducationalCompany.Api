@@ -12,7 +12,7 @@ namespace EducationalCompany.Api.Domain.Entities
         public string Specialization { get; private set; }
 
         // List of course occasions taught by this teacher
-        public ICollection<CourseOccasion> CourseOccasion { get; private set; } = new List<CourseOccasion>();
+        public ICollection<CourseOccasion> CourseOccasions { get; private set; } = new List<CourseOccasion>();
 
         // List of course occasions taught by this teacher
         protected Teacher()
@@ -20,24 +20,24 @@ namespace EducationalCompany.Api.Domain.Entities
         }
 
         // Creates a new teacher with basic validation
-        public Teacher(string firstName, string lastName, string email, string phoneNumber)
+        public Teacher(string firstName, string lastName, string email, string phoneNumber, string specialization)
         {
             FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
             LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
             Email = email ?? throw new ArgumentNullException(nameof(email));
-            Phone = Phone ?? throw new ArgumentNullException(nameof(phoneNumber));
-            Specialization = Specialization ?? throw new ArgumentNullException(nameof(Specialization));
+            Phone = phoneNumber ?? throw new ArgumentNullException(nameof(phoneNumber));
+            Specialization = specialization ?? throw new ArgumentNullException(nameof(specialization));
             CreatedAt = DateTime.UtcNow;
         }
 
         // Updates teacher information
-        public void Update(string firstName, string lastName, string email, string phoneNumber)
+        public void Update(string firstName, string lastName, string email, string phoneNumber, string specialization)
         {
             FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
             LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
             Email = email ?? throw new ArgumentNullException(nameof(email));
-            Phone = Phone ?? throw new ArgumentNullException(nameof(phoneNumber));
-            Specialization = Specialization ?? throw new ArgumentNullException(nameof(Specialization));
+            Phone = phoneNumber ?? throw new ArgumentNullException(nameof(phoneNumber));
+            Specialization = specialization ?? throw new ArgumentNullException(nameof(specialization));
             UpdatedAt = DateTime.UtcNow;
         }
     }
