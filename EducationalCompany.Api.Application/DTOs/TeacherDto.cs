@@ -10,7 +10,7 @@
         public string Phone { get; set; }
         public string Specialization { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 
     // DTO used when creating a teacher
