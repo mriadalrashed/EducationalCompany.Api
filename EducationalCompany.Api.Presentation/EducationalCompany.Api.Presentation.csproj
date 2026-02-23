@@ -12,6 +12,13 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EducationalCompany.Api.Application\EducationalCompany.Api.Application.csproj" />
+    <ProjectReference Include="..\EducationalCompany.Api.Infrastructure\EducationalCompany.Api.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
