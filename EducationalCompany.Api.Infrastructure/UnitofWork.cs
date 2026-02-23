@@ -32,11 +32,11 @@ namespace EducationalCompany.Api.Infrastructure
         public UnitOfWork(ApplicationDbContext context, IMemoryCache cache)
         {
             _context = context;
-            _cache = Cache;
+            _cache = cache;
 
             // Initialize repositories
-            Courses = new CourseRepository(_context);
-            CourseOccasions = new CourseOccasionRepository(_context);
+            Courses = new CourseRepository(_context, _cache);
+            CourseOccasions = new CourseOccasionRepository(_context, _cache);
             CourseRegistrations = new CourseRegistrationRepository(_context);
             Participants = new ParticipantRepository(_context);
             Teachers = new TeacherRepository(_context);
