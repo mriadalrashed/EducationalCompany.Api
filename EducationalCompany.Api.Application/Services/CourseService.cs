@@ -76,14 +76,15 @@ namespace EducationalCompany.Api.Application.Services
             var course = await _unitOfWork.Courses.GetByIdAsync(id);
             if (course == null)
                 throw new KeyNotFoundException($"Course with id {id} not found.");
-            await _unitOfWork.Courses.DeleteAsync(course);
+
+            await _unitOfWork.Courses.DeleteAsync(id);
         }
 
 
         // Search courses
         public async Task<IEnumerable<CourseDto>> SearchCoursesAsync(string searchTerm)
         {
-            var courses = await _unitOfWork.Courses.SearchAsync(searchTerm);
+            var courses = await _unitOfWork.Courses.SearchCoursesAsync(searchTerm);
             return courses.Select(MapToDto);
         }
 
