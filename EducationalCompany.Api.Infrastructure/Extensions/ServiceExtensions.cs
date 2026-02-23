@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Caching.Memory;
+
 
 namespace EducationalCompany.Api.Infrastructure.Extensions
 {
@@ -9,7 +11,7 @@ namespace EducationalCompany.Api.Infrastructure.Extensions
     public static class ServiceExtensions
     {
         // Registers database and infrastructure dependencies
-        public static IServiceCollection AddInfrastructueServices(
+        public static IServiceCollection AddInfrastructureServices(
             this IServiceCollection services,
             IConfiguration configuration)
         {
