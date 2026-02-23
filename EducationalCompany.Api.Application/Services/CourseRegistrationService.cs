@@ -10,12 +10,12 @@ namespace EducationalCompany.Api.Application.Services;
 public class CourseRegistrationService : ICourseRegistrationService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ICourseOccasisonService _courseoccasisonservice;
+    private readonly ICourseOccasionService _courseoccasisonservice;
 
     // Constructor with dependency injection
     public CourseRegistrationService(
         IUnitOfWork unitOfWork,
-        ICourseOccasisonService courseoccasisonservice)
+        ICourseOccasionService courseoccasisonservice)
     {
         _unitOfWork = unitOfWork;
         _courseoccasisonservice = courseoccasisonservice;
@@ -100,14 +100,14 @@ public class CourseRegistrationService : ICourseRegistrationService
             // Get full details
             var registrationWithDetails =
                 await _unitOfWork.CourseRegistrations
-                    .GetRegistrationsDetailsAsync(registration.id);
+                    .GetRegistrationDetailsAsync(registration.Id);
 
             return await MapToDto(
                 registrationWithDetails ?? registration);
         }
         catch
         {
-            await _unitOfWork.RollbackTransactionsAsync();
+            await _unitOfWork.RollbackTransactionAsync();
             throw;
         }
     }
@@ -115,7 +115,7 @@ public class CourseRegistrationService : ICourseRegistrationService
     // Update registration status
     public async Task UpdateRegistrationsStatusAsync(
         Guid id,
-        UpdateCourseRegistrationDto dto)
+        UpdateRegistrationStatusDto dto)
     {
         var registration =
             await _unitOfWork.CourseRegistrations.GetByIdAsync(id);
@@ -132,7 +132,7 @@ public class CourseRegistrationService : ICourseRegistrationService
                 break;
 
             case "Cancelled":
-                registration.CancelRegistrationAsync();
+                registration.Cancel();
                 break;
 
             default:
@@ -144,7 +144,7 @@ public class CourseRegistrationService : ICourseRegistrationService
     }
 
     // Delete registration
-    public async Task DeleteRegistrationsAsync(Guid id)
+    public async Task DeleteRegistrationAsync(Guid id)
     {
         var registration =
             await _unitOfWork.CourseRegistrations.GetByIdAsync(id);
@@ -168,39 +168,49 @@ public class CourseRegistrationService : ICourseRegistrationService
 
     // Get registrations by participant
     public async Task<IEnumerable<CourseRegistrationDto>>
-        GetRegistrationByParticipantAsync(Guid participantId)
+        GetRegistrationsByParticipantAsync(Guid participantId)
     {
         var registrations =
             await _unitOfWork.CourseRegistrations
-                .GetRegistrationByParticipantAsync(participantId);
+                .GetRegistrationsByParticipantAsync(participantId);
 
         return await MapToDtoList(registrations);
     }
 
     // Get registrations by occasion
     public async Task<IEnumerable<CourseRegistrationDto>>
-        GetRegistrationByOccasionAsync(Guid occasionId)
+        GetRegistrationsByOccasionAsync(Guid occasionId)
     {
         var registrations =
             await _unitOfWork.CourseRegistrations
-                .GetRegistrationByOccasionAsync(occasionId);
+                .GetRegistrationsByOccasionAsync(occasionId);
 
         return await MapToDtoList(registrations);
     }
 
     // Get registration with full details
     public async Task<CourseRegistrationDto>
-        GetRegistrationsDetailsAsync(Guid id)
+        GetRegistrationDetailsAsync(Guid id)
     {
         var registrations =
             await _unitOfWork.CourseRegistrations
-                .GetRegistrationsDetailsAsync(id);
+                .GetRegistrationDetailsAsync(id);
 
         if (registrations == null)
             throw new KeyNotFoundException(
                 $"registration with id {id} not found.");
 
         return await MapToDto(registrations);
+    }
+
+    public async Task ConfirmRegistrationAsync(Guid id)
+    {
+        var registration = await _unitOfWork.CourseRegistrations.GetByIdAsync(id);
+        if (registration == null)
+            throw new KeyNotFoundException($"Registration with ID {id} not found");
+
+        registration.Confirm();
+        await _unitOfWork.CourseRegistrations.UpdateAsync(registration);
     }
 
     // Cancel registration with transaction
@@ -225,10 +235,10 @@ public class CourseRegistrationService : ICourseRegistrationService
                 throw new KeyNotFoundException(
                     $" course occasion with id {registration.CourseOccasionId} not found.");
 
-            registration.cancel();
-            occasion.cancelRegistration();
+            registration.Cancel();
+            occasion.CancelRegistration();
 
-            await _unitOfWork.CourseRegstrations.UpdateAsync(registration);
+            await _unitOfWork.CourseRegistrations.UpdateAsync(registration);
             await _unitOfWork.CourseOccasions.UpdateAsync(occasion);
 
             await _unitOfWork.CommitTransactionAsync();
@@ -244,7 +254,7 @@ public class CourseRegistrationService : ICourseRegistrationService
     private async Task<CourseRegistrationDto>
         MapToDto(CourseRegistration r)
     {
-        var dto = new CourseRegistrationDto(
+        var dto = new CourseRegistrationDto {
             Id = r.Id,
             ParticipantId = r.ParticipantId,
             CourseOccasionId = r.CourseOccasionId,
@@ -254,7 +264,7 @@ public class CourseRegistrationService : ICourseRegistrationService
             CancelledAt = r.CancelledAt,
             CreatedAt = r.CreatedAt,
             UpdatedAt = r.UpdatedAt
-        );
+        };
 
         // Load participant details
         if (r.ParticipantId != Guid.Empty)
@@ -284,7 +294,7 @@ public class CourseRegistrationService : ICourseRegistrationService
         {
             var O =
                 await _unitOfWork.CourseOccasions
-                    .GetByIdAsync(r.CourseOccasionsId);
+                    .GetByIdAsync(r.CourseOccasionId);
 
             if (O != null)
             {
