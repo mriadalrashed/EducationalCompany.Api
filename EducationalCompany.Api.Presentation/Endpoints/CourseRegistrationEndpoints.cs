@@ -1,6 +1,6 @@
-﻿using EducationalCompany.Application.DTOs;
-using EducationalCompany.Application.Services;
-using EducationalCompany.Application.Interfaces;
+﻿using EducationalCompany.Api.Application.DTOs;
+using EducationalCompany.Api.Application.Services;
+using EducationalCompany.Api.Application.Interfaces;
 
 namespace EducationalCompany.Presentation.Endpoints;
 
@@ -118,7 +118,7 @@ public static class CourseRegistrationEndpoints
         {
             try
             {
-                await service.UpdateRegistrationStatusAsync(id, dto);
+                await service.UpdateRegistrationsStatusAsync(id, dto);
                 return Results.NoContent();
             }
             catch (KeyNotFoundException ex)
