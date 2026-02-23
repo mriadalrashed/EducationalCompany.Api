@@ -9,8 +9,8 @@ namespace EducationalCompany.Api.Application.Interfaces
         Task<IEnumerable<TeacherDto>> GetAllTeachersAsync();  // Get all teachers
         Task<TeacherDto> GetTeacherByIdAsync(Guid id); // Get teacher by ID
         Task<TeacherDto> CreateTeacherAsync(CreateTeacherDto createTeacherDto); // Create new teacher
-        Task<TeacherDto> UpdateTeacherAsync(UpdateTeacherDto updateTeacherDto);  // Update teacher
-        Task<bool> DeleteTeacherAsync(Guid id); // Delete teacher
+        Task UpdateTeacherAsync(Guid id, UpdateTeacherDto updateTeacherDto);  // Update teacher
+        Task DeleteTeacherAsync(Guid id); // Delete teacher
 
         Task<IEnumerable<TeacherDto>> SearchTeachersAsync(string searchTerm); // Search teachers
         Task<TeacherDto> GetTeacherWithOccasionsAsync(Guid id); // Get teacher with assigned occasions
