@@ -32,6 +32,12 @@ app.UseCors("AllowReactApp");
 
 app.UseAuthorization();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+}
+
 CourseEndpoints.MapCourseEndpoints(app);
 TeacherEndpoints.MapTeacherEndpoints(app);
 CourseOccasionEndpoints.MapCourseOccasionEndpoints(app);

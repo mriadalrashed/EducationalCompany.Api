@@ -1,5 +1,5 @@
-﻿using EducationalCompany.Application.DTOs;
-using EducationalCompany.Application.Interfaces;
+﻿using EducationalCompany.Api.Application.DTOs;
+using EducationalCompany.Api.Application.Interfaces;
 
 namespace EducationalCompany.Presentation.Endpoints;
 
@@ -21,7 +21,7 @@ public static class CourseOccasionEndpoints
         // GET: /api/course-occasions/upcoming
         group.MapGet("/upcoming", async (ICourseOccasionService service) =>
         {
-            return Results.Ok(await service.GetUpcomingOccasionsAsync());
+            return Results.Ok(await service.GetUpComingOccasionsAsync());
         })
         .WithName("GetUpcomingCourseOccasions")
         .Produces<IEnumerable<CourseOccasionDto>>(StatusCodes.Status200OK);
@@ -65,7 +65,7 @@ public static class CourseOccasionEndpoints
         {
             try
             {
-                var occasions = await service.GetByCourseIdAsync(courseId);
+                var occasions = await service.GetOccasionsByCourseIdAsync(courseId);
                 return Results.Ok(occasions);
             }
             catch (KeyNotFoundException)

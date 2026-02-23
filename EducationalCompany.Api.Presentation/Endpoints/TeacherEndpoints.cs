@@ -1,5 +1,5 @@
-﻿using EducationalCompany.Application.DTOs;
-using EducationalCompany.Application.Interfaces;
+﻿using EducationalCompany.Api.Application.DTOs;
+using EducationalCompany.Api.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EducationalCompany.Presentation.Endpoints;

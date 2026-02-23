@@ -94,7 +94,7 @@ namespace EducationalCompany.Api.Infrastructure.Data
                 // Relationship with CourseOccasion
                 entity.HasOne(e => e.CourseOccasion)
                       .WithMany(co => co.Registrations)
-                      .HasForeignKey(e => e.TeacherId)
+                      .HasForeignKey(e => e.CourseOccasionId)
                       .OnDelete(DeleteBehavior.Cascade);
 
                 // Prevent duplicate registration for same participant and occasion

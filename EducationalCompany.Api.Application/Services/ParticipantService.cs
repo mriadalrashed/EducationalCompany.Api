@@ -34,13 +34,14 @@ public class ParticipantService : IParticipantService
         var existingParticipant = (await _unitOfWork.Participants.SearchParticipantsAsync(dto.Email)).FirstOrDefault();
         if (existingParticipant == null)
             throw new InvalidOperationException($"Participant with email {dto.Email} already exists.");
-        var participant = new Participant
-        {
-            Id = Guid.NewGuid(),
-            Name = dto.Name,
-            Email = dto.Email,
-            PhoneNumber = dto.PhoneNumber
-        };
+
+        var participant = new Participant(
+            dto.FirstName,
+            dto.LastName,
+            dto.Email,
+            dto.Phone,
+            dto.Address);
+
         await _unitOfWork.Participants.AddAsync(participant);
         return MapToDto(participant);
     }
@@ -58,7 +59,7 @@ public class ParticipantService : IParticipantService
             if (existingParticipant != null)
                 throw new InvalidOperationException($"Participant with email {dto.Email} already exists.");
         }
-        participant.update(dto.FirstName, dto.LastName, dto.Email, dto.Phone, dto.Address);
+        participant.Update(dto.FirstName, dto.LastName, dto.Email, dto.Phone, dto.Address);
 
         await _unitOfWork.Participants.UpdateAsync(participant);
     }
@@ -68,18 +69,32 @@ public class ParticipantService : IParticipantService
         var participant = await _unitOfWork.Participants.GetByIdAsync(id);
         if (participant == null)
             throw new KeyNotFoundException($"participant with id {id} not found.");
-        var registrations = await _unitOfWork.Registrations.GetRegistrationsByParticipantAsync(id);
+        var registrations = await _unitOfWork.CourseRegistrations.GetRegistrationsByParticipantAsync(id);
         if (registrations.Any())
             throw new InvalidOperationException($"Can't Delete Participant Who Has a Course Registration");
 
         await _unitOfWork.Participants.DeleteAsync(id);
     }
 
-    public async Task<IEnumerable<ParticipantDto>> SearchParticipantAsync(string searchTerm)
+    public async Task<IEnumerable<ParticipantDto>> SearchParticipantsAsync(string searchTerm)
     {
-        var participants = await _unitOfWork.Participant.SearchParticipantsAsync(searchTerm);
+        var participants = await _unitOfWork.Participants.SearchParticipantsAsync(searchTerm);
         return participants.Select(MapToDto);
     }
+
+    public async Task<ParticipantDto> GetParticipantWithRegistrationsAsync(Guid id)
+    {
+        var participant = await _unitOfWork.Participants.GetParticipantWithRegistrationsAsync(id);
+        if (participant == null)
+            throw new KeyNotFoundException($"Participant with ID {id} not found");
+
+        var dto = MapToDto(participant);
+
+        // You can add registration details to the DTO if needed
+
+        return dto;
+    }
+
     private ParticipantDto MapToDto(Participant participant)
     {
         return new ParticipantDto

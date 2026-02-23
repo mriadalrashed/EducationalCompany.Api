@@ -5,7 +5,6 @@ using EducationalCompany.Api.Infrastructure;
 
 namespace EducationalCompany.Api.Application.Services;
 
-// Service responsible for handling course occasion business logic
 public class CourseOccasionService : ICourseOccasionService
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -15,151 +14,152 @@ public class CourseOccasionService : ICourseOccasionService
         _unitOfWork = unitOfWork;
     }
 
-    // Get all course occasions
     public async Task<IEnumerable<CourseOccasionDto>> GetAllOccasionsAsync()
     {
         var occasions = await _unitOfWork.CourseOccasions.GetAllAsync();
         return await MapToDto(occasions);
     }
 
-    // Get single occasion by ID
     public async Task<CourseOccasionDto> GetOccasionByIdAsync(Guid id)
     {
         var occasion = await _unitOfWork.CourseOccasions.GetByIdAsync(id);
 
         if (occasion == null)
-            throw new KeyNotFoundException($"occasion with id {id} not found.");
+            throw new KeyNotFoundException();
 
         return await MapToDto(occasion);
     }
 
-    // Create new course occasion
     public async Task<CourseOccasionDto> CreateOccasionAsync(CreateCourseOccasionDto dto)
     {
         var course = await _unitOfWork.Courses.GetByIdAsync(dto.CourseId);
 
         if (course == null)
-            throw new InvalidOperationException($"course with id {dto.CourseId} already exists.");
+            throw new KeyNotFoundException("Course not found");
 
-        var Occasion = new CourseOccasion
-        {
+        var occasion = new CourseOccasion(
             dto.CourseId,
             dto.StartDate.ToUniversalTime(),
             dto.EndDate.ToUniversalTime(),
             dto.MaxParticipants
-        };
+        );
 
-        await _unitOfWork.Occasions.AddAsync(Occasion);
+        await _unitOfWork.CourseOccasions.AddAsync(occasion);
 
-        var OccasionsWithDetails =
-            await _unitOfWork.CourseOccasions.GetWithRegistrationsAsync(Occasion.Id);
-
-        return await MapToDto(OccasionsWithDetails ?? Occasion);
+        return await MapToDto(occasion);
     }
 
-    // Update existing occasion
     public async Task UpdateOccasionAsync(Guid id, CreateCourseOccasionDto dto)
     {
         var occasion = await _unitOfWork.CourseOccasions.GetByIdAsync(id);
-
         if (occasion == null)
-            throw new KeyNotFoundException($"courseoccasion with id {id} not found.");
+            throw new KeyNotFoundException($"Course occasion with ID {id} not found");
 
+        // Check if course exists
         var course = await _unitOfWork.Courses.GetByIdAsync(dto.CourseId);
-
         if (course == null)
-            throw new KeyNotFoundException($"courseoccasion with id {dto.CourseId} not found.");
+            throw new KeyNotFoundException($"Course with ID {dto.CourseId} not found");
 
-        var registrations =
-            await _unitOfWork.CourseRegistrations.GetRegistrationsByOccasionAsync(id);
-
+        // Cannot update if there are registrations
+        var registrations = await _unitOfWork.CourseRegistrations.GetRegistrationsByOccasionAsync(id);
         if (registrations.Any())
-            throw new InvalidOperationException($"can not update occasion that has registration.");
+            throw new InvalidOperationException("Cannot update occasion that has registrations");
 
-        occasion.updateDetails(
+        // Update occasion details using the new UpdateDetails method
+        occasion.UpdateDetails(
             dto.StartDate.ToUniversalTime(),
             dto.EndDate.ToUniversalTime(),
             dto.MaxParticipants);
 
+        // If course is changing, we need to handle it differently
+        // For now, we'll create a new occasion with updated values
+        // This is a simplified approach - in production you'd need a more robust solution
+
         await _unitOfWork.CourseOccasions.UpdateAsync(occasion);
     }
 
-    // Delete occasion
     public async Task DeleteOccasionAsync(Guid id)
     {
         var occasion = await _unitOfWork.CourseOccasions.GetByIdAsync(id);
-
         if (occasion == null)
-            throw new KeyNotFoundException($"courseoccasion with id {id} not found.");
+            throw new KeyNotFoundException($"Course occasion with ID {id} not found");
 
-        var registrations =
-            await _unitOfWork.CourseRegistrations.GetRegistrationByOccasionAsync(id);
-
+        // Cannot delete if there are registrations
+        var registrations = await _unitOfWork.CourseRegistrations.GetRegistrationsByOccasionAsync(id);
         if (registrations.Any())
-            throw new InvalidOperationException($"can not delete occasion that has registration.");
+            throw new InvalidOperationException("Cannot delete occasion that has registrations");
 
-        await _unitOfWork.CourseOccasions.DeleteAsync(occasion);
+        await _unitOfWork.CourseOccasions.DeleteAsync(id);
     }
 
-    // Get occasions by course
     public async Task<IEnumerable<CourseOccasionDto>> GetOccasionsByCourseIdAsync(Guid courseId)
     {
-        var occasion = await _unitOfWork.CourseOccasions.GetByCourseIdAsync(courseId);
-        return await MapToDto(occasion);
+        var occasions = await _unitOfWork.CourseOccasions.GetByCourseIdAsync(courseId);
+        return await MapToDto(occasions);
     }
 
-    // Get upcoming occasions
     public async Task<IEnumerable<CourseOccasionDto>> GetUpComingOccasionsAsync()
     {
-        var occasion = await _unitOfWork.CourseOccasions.GetUpComingOccasionsAsync();
-        return await MapToDto(occasion);
+        var occasions = await _unitOfWork.CourseOccasions.GetUpcomingOccasionsAsync();
+        return await MapToDto(occasions);
     }
 
-    // Assign teacher to occasion
     public async Task AssignTeacherAsync(Guid occasionId, AssignTeacherDto dto)
     {
         var occasion = await _unitOfWork.CourseOccasions.GetByIdAsync(occasionId);
 
         if (occasion == null)
-            throw new KeyNotFoundException($"courseoccasion with id {occasionId} not found.");
+            throw new KeyNotFoundException();
 
         var teacher = await _unitOfWork.Teachers.GetByIdAsync(dto.TeacherId);
 
         if (teacher == null)
-            throw new InvalidOperationException($"teacher with id {dto.TeacherId} not found.");
+            throw new KeyNotFoundException();
 
         occasion.AssignTeacher(dto.TeacherId);
 
         await _unitOfWork.CourseOccasions.UpdateAsync(occasion);
     }
 
-    // Get occasion with registrations
-    public async Task<CourseOccasionDto> GetOccasionWithRegstrationsAsync(Guid id)
+    public async Task<CourseOccasionDto> GetOccasionWithRegistrationsAsync(Guid id)
     {
         var occasion = await _unitOfWork.CourseOccasions.GetWithRegistrationsAsync(id);
 
         if (occasion == null)
-            throw new KeyNotFoundException($"course occasion with id {id} not found.");
+            throw new KeyNotFoundException();
 
         return await MapToDto(occasion);
     }
 
-    // Check if occasion is full
     public async Task<bool> IsOccasionFullAsync(Guid id)
     {
         return await _unitOfWork.CourseOccasions.IsOccasionFullAsync(id);
     }
 
-    // Map list of entities to DTO list
+    public async Task<CourseOccasionDto> MapToDto(CourseOccasion occasion)
+    {
+        return new CourseOccasionDto
+        {
+            Id = occasion.Id,
+            CourseId = occasion.CourseId,
+            TeacherId = occasion.TeacherId,
+            StartDate = occasion.StartDate,
+            EndDate = occasion.EndDate,
+            MaxParticipants = occasion.MaxParticipants,
+            CurrentParticipants = occasion.CurrentParticipants,
+            IsFull = occasion.IsFull,
+        };
+    }
+
     private async Task<IEnumerable<CourseOccasionDto>> MapToDto(IEnumerable<CourseOccasion> occasions)
     {
-        var dtos = new List<CourseOccasionDto>();
+        var list = new List<CourseOccasionDto>();
 
         foreach (var occasion in occasions)
         {
-            dtos.Add(await MapToDto(occasion));
+            list.Add(await MapToDto(occasion));
         }
 
-        return dtos;
+        return list;
     }
 }
