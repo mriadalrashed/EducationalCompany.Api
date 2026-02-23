@@ -29,7 +29,7 @@ namespace EducationalCompany.Api.Domain.Entities
 
 
         // Creates a new course occasion with validation rules
-        public CourseOccasion(Guid courseId, Guid teacherId, DateTime startDate, DateTime endDate, int maxParticipants)
+        public CourseOccasion(Guid courseId, DateTime startDate, DateTime endDate, int maxParticipants)
         {
             if (endDate <= startDate)
             {
@@ -42,7 +42,6 @@ namespace EducationalCompany.Api.Domain.Entities
             }
 
             CourseId = courseId;
-            TeacherId = teacherId;
             StartDate = startDate;
             EndDate = endDate;
             MaxParticipants = maxParticipants;
@@ -52,7 +51,7 @@ namespace EducationalCompany.Api.Domain.Entities
 
 
         // Updates schedule and capacity with validation
-        public void Update(DateTime startDate, DateTime endDate, int maxParticipants)
+        public void UpdateDetails(DateTime startDate, DateTime endDate, int maxParticipants)
         {
             if (endDate <= startDate)
             {
