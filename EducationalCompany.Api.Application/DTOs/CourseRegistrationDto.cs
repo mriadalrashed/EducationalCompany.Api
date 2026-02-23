@@ -3,6 +3,7 @@
     // DTO used to return course registration data
     public class CourseRegistrationDto
     {
+        public Guid Id { get;  set; }
         public Guid ParticipantId { get;  set; }
         public Guid CourseOccasionId { get;  set; }
         public DateTime RegistrationDate { get;  set; }
@@ -22,7 +23,7 @@
         public Guid CourseOccasionId { get; set; }
     }
     // DTO used when updating registration status
-    public class UpdateCourseRegistrationDto
+    public class UpdateRegistrationStatusDto
     {
         public string Status { get; set; } // New status
     }  
