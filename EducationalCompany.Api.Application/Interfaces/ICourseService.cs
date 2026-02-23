@@ -9,8 +9,8 @@ namespace EducationalCompany.Api.Application.Interfaces
         Task<IEnumerable<CourseDto>> GetAllCoursesAsync(); // Get all courses
         Task<CourseDto> GetCourseByIdAsync(Guid id); // Get course by ID
         Task<CourseDto> CreateCourseAsync(CreateCourseDto dto); // Create new course
-        Task<CourseDto> UpdateCourseAsync(UpdateCourseDto dto); // Update course
-        Task<bool> DeleteCourseAsync(Guid id); // Delete course
+        Task UpdateCourseAsync(Guid id, UpdateCourseDto dto); // Update course
+        Task DeleteCourseAsync(Guid id); // Delete course
         Task<IEnumerable<CourseDto>> SearchCoursesAsync(string searchTerm); // Search courses by keyword
     }
 }
