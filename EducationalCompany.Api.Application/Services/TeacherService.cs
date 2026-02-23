@@ -17,16 +17,16 @@ public class TeacherService : ITeacherService
     }
 
     // Get all teachers
-    public async Task<IEnumerable<ParticipantDto>> GetAllTeacherAsync()
+    public async Task<IEnumerable<TeacherDto>> GetAllTeachersAsync()
     {
-        var teachers = await _unitOfWork.Participants.GetAllAsync();
+        var teachers = await _unitOfWork.Teachers.GetAllAsync();
         return teachers.Select(MapToDto);
     }
 
     // Get teacher by ID
     public async Task<TeacherDto> GetTeacherByIdAsync(Guid id)
     {
-        var teacher = await _unitOfWork.Participants.GetByIdAsync(id);
+        var teacher = await _unitOfWork.Teachers.GetByIdAsync(id);
 
         if (teacher == null)
             throw new KeyNotFoundException($"Teacher with id {id} not found.");
@@ -61,7 +61,7 @@ public class TeacherService : ITeacherService
     }
 
     // Update teacher
-    public async Task<TeacherDto> UpdateTeacherAsync(Guid id, UpdateTeacherDto dto)
+    public async Task UpdateTeacherAsync(Guid id, UpdateTeacherDto dto)
     {
         var teacher = await _unitOfWork.Teachers.GetByIdAsync(id);
 
@@ -102,14 +102,14 @@ public class TeacherService : ITeacherService
                 $"Teacher with id {id} not found.");
 
         // Check if teacher is assigned to course occasions
-        var occasion =
-            _unitOfWork.CourseOccasions.GetByCourseIdAsync(id);
+        var occasions =
+            await _unitOfWork.CourseOccasions.GetByCourseIdAsync(id);
 
-        if (occasion.Any())
+        if (occasions.Any())
             throw new InvalidOperationException(
                 $"Can Not Delete Teacher Who Is Assgin To Course Occasion");
 
-        await _unitOfWork.Teachers.DeleteAsync(teacher);
+        await _unitOfWork.Teachers.DeleteAsync(id);
     }
 
     // Search teachers
@@ -121,19 +121,33 @@ public class TeacherService : ITeacherService
         return teachers.Select(MapToDto);
     }
 
+    public async Task<TeacherDto> GetTeacherWithOccasionsAsync(Guid id)
+    {
+        var teacher = await _unitOfWork.Teachers.GetTeacherWithOccasionsAsync(id);
+        if (teacher == null)
+            throw new KeyNotFoundException($"Teacher with ID {id} not found");
+
+        var dto = MapToDto(teacher);
+
+        // Add occasions to DTO if needed
+        // You can create a more detailed DTO if required
+
+        return dto;
+    }
+
     // Map Teacher entity to DTO
     private TeacherDto MapToDto(Teacher teacher)
     {
         return new TeacherDto
         {
-            Id = teacher.id,
-            FirstName = teacher.firstName,
-            LastName = teacher.lastName,
-            Email = teacher.email,
-            Phone = teacher.phone,
-            Specialization = teacher.specialization,
-            CreatedAt = teacher.createdAt,
-            UpdatedAt = teacher.updatedAt
+            Id = teacher.Id,
+            FirstName = teacher.FirstName,
+            LastName = teacher.LastName,
+            Email = teacher.Email,
+            Phone = teacher.Phone,
+            Specialization = teacher.Specialization,
+            CreatedAt = teacher.CreatedAt,
+            UpdatedAt = teacher.UpdatedAt
         };
     }
 }
