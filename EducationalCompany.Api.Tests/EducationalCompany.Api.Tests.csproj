@@ -27,7 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EducationalCompany.Api.Application\EducationalCompany.Api.Application.csproj" />
     <ProjectReference Include="..\EducationalCompany.Api.Domain\EducationalCompany.Api.Domain.csproj" />
+    <ProjectReference Include="..\EducationalCompany.Api.Infrastructure\EducationalCompany.Api.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
