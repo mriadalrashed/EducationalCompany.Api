@@ -3,11 +3,12 @@
 // All tests have been reviewed, validated, and verified manually to ensure correctness
 // and proper coverage of the intended functionality.
 
+using EducationalCompany.Api.Application.DTOs;
+using EducationalCompany.Api.Application.Services;
 using EducationalCompany.Api.Domain.Entities;
-using EducationalCompany.Application.DTOs;
-using EducationalCompany.Application.Services;
-using EducationalCompany.Domain.Entities;
-using EducationalCompany.Infrastructure;
+using EducationalCompany.Api.Domain.Entities;
+using EducationalCompany.Api.Infrastructure;
+using EducationalCompany.Api.Infrastructure.Repositories;
 using EducationalCompany.Infrastructure.Repositories;
 using Moq;
 using Shouldly;
@@ -528,8 +529,8 @@ namespace EducationalCompany.Tests.Unit.Services
             result.Email.ShouldBe(teacher.Email);
             result.Phone.ShouldBe(teacher.Phone);
             result.Specialization.ShouldBe(teacher.Specialization);
-            result.CreatedDate.ShouldBe(teacher.CreatedDate);
-            result.UpdatedDate.ShouldBe(teacher.UpdatedDate);
+            result.CreatedAt.ShouldBe(teacher.CreatedAt);
+            result.UpdatedAt.ShouldBe(teacher.UpdatedAt);
         }
 
         [Fact]
@@ -604,8 +605,8 @@ namespace EducationalCompany.Tests.Unit.Services
             capturedTeacher.Email.ShouldBe(createDto.Email);
             capturedTeacher.Phone.ShouldBe(createDto.Phone);
             capturedTeacher.Specialization.ShouldBe(createDto.Specialization);
-            capturedTeacher.CreatedDate.ShouldNotBe(default);
-            capturedTeacher.UpdatedDate.ShouldBe(default);
+            capturedTeacher.CreatedAt.ShouldNotBe(default);
+            capturedTeacher.UpdatedAt.ShouldBe(default);
         }
     }
 }
