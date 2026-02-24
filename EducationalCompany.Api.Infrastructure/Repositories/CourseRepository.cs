@@ -5,7 +5,7 @@ using EducationalCompany.Api.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace EducationalCompany.Infrastructure.Repositories;
+namespace EducationalCompany.Api.Infrastructure.Repositories;
 
 // Repository contract for Course entity
 public interface ICourseRepository : IRepository<Course>
