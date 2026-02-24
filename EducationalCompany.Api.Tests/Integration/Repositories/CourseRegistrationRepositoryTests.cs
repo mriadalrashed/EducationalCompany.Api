@@ -6,7 +6,6 @@
 using EducationalCompany.Api.Domain.Entities;
 using EducationalCompany.Api.Infrastructure.Data;
 using EducationalCompany.Api.Infrastructure.Repositories;
-using EducationalCompany.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using System;

@@ -8,7 +8,6 @@ using EducationalCompany.Api.Application.Services;
 using EducationalCompany.Api.Domain.Entities;
 using EducationalCompany.Api.Infrastructure;
 using EducationalCompany.Api.Infrastructure.Repositories;
-using EducationalCompany.Infrastructure.Repositories;
 using Moq;
 using Shouldly;
 using System;
