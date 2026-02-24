@@ -3,13 +3,14 @@
 // All tests have been reviewed, validated, and verified manually to ensure correctness
 // and proper coverage of the intended functionality.
 
+using EducationalCompany.Api.Application.DTOs;
+using EducationalCompany.Api.Application.Interfaces;
+using EducationalCompany.Api.Application.Services;
 using EducationalCompany.Api.Domain.Entities;
-using EducationalCompany.Application.DTOs;
-using EducationalCompany.Application.Interfaces;
-using EducationalCompany.Application.Services;
-using EducationalCompany.Domain.Entities;
-using EducationalCompany.Infrastructure;
-using EducationalCompany.Infrastructure.Data;
+using EducationalCompany.Api.Domain.Entities;
+using EducationalCompany.Api.Infrastructure;
+using EducationalCompany.Api.Infrastructure.Data;
+using EducationalCompany.Api.Infrastructure.Repositories;
 using EducationalCompany.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -446,7 +447,7 @@ namespace EducationalCompany.Tests.Integration.Services
             var updateDto = new UpdateRegistrationStatusDto { Status = "confirmed" };
 
             // Act
-            await _service.UpdateRegistrationStatusAsync(registration.Id, updateDto);
+            await _service.UpdateRegistrationsStatusAsync(registration.Id, updateDto);
 
             // Assert
             var updated = await _unitOfWork.CourseRegistrations.GetByIdAsync(registration.Id);
@@ -470,7 +471,7 @@ namespace EducationalCompany.Tests.Integration.Services
             var updateDto = new UpdateRegistrationStatusDto { Status = "cancelled" };
 
             // Act
-            await _service.UpdateRegistrationStatusAsync(registration.Id, updateDto);
+            await _service.UpdateRegistrationsStatusAsync(registration.Id, updateDto);
 
             // Assert
             var updated = await _unitOfWork.CourseRegistrations.GetByIdAsync(registration.Id);
@@ -497,7 +498,7 @@ namespace EducationalCompany.Tests.Integration.Services
 
             // Act & Assert
             var exception = await Should.ThrowAsync<ArgumentException>(async () =>
-                await _service.UpdateRegistrationStatusAsync(registration.Id, updateDto));
+                await _service.UpdateRegistrationsStatusAsync(registration.Id, updateDto));
 
             exception.Message.ShouldContain("Invalid status");
         }
