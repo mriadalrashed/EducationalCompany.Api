@@ -3,8 +3,9 @@
 // All tests have been reviewed, validated, and verified manually to ensure correctness
 // and proper coverage of the intended functionality.
 
-using EducationalCompany.Domain.Entities;
-using EducationalCompany.Infrastructure.Data;
+using EducationalCompany.Api.Domain.Entities;
+using EducationalCompany.Api.Infrastructure.Data;
+using EducationalCompany.Api.Infrastructure.Repositories;
 using EducationalCompany.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
