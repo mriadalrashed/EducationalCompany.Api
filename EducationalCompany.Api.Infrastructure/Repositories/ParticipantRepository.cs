@@ -4,7 +4,7 @@ using EducationalCompany.Api.Domain.Entities;
 using EducationalCompany.Api.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace EducationalCompany.Infrastructure.Repositories;
+namespace EducationalCompany.Api.Infrastructure.Repositories;
 
 // Repository contract for Participant entity
 public interface IParticipantRepository : IRepository<Participant>
