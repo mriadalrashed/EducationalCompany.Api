@@ -21,8 +21,8 @@ namespace EducationalCompany.Api.Domain.Entities
         }
 
         // Creates a new course with validation
-        public Course(string name, string description, int durationHours, decimal price)
-        {
+        public Course( string name, string description, int durationHours, decimal price)
+        {   
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Description = description ?? throw new ArgumentNullException(nameof(description)); ;
             DurationHours = durationHours > 0 ? durationHours : throw new ArgumentException("duration must be positive");
