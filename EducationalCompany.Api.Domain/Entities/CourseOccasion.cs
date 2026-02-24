@@ -7,7 +7,7 @@ namespace EducationalCompany.Api.Domain.Entities
     public class CourseOccasion : BaseEntity
     {
         public Guid CourseId { get; private set; }
-        public Guid TeacherId { get; private set; }
+        public Guid? TeacherId { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
         public int MaxParticipants { get; private set; }
@@ -17,7 +17,7 @@ namespace EducationalCompany.Api.Domain.Entities
         public bool IsFull => CurrentParticipants >= MaxParticipants;
 
         public Course Course { get; protected set; }
-        public Teacher Teacher { get; protected set; }
+        public Teacher? Teacher { get; protected set; }
 
         // List of participant registrations for this session
         public ICollection<CourseRegistration> Registrations { get; private set; } = new List<CourseRegistration>();
