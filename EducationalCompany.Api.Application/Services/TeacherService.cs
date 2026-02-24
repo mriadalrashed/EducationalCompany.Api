@@ -37,6 +37,10 @@ public class TeacherService : ITeacherService
     // Create new teacher
     public async Task<TeacherDto> CreateTeacherAsync(CreateTeacherDto dto)
     {
+        // Check for null DTO first
+        if (dto == null)
+            throw new ArgumentNullException(nameof(dto));
+
         // Check if teacher email already exists
         var existingTeacher =
             (await _unitOfWork.Teachers.SearchTeachersAsync(dto.Email))
@@ -63,6 +67,10 @@ public class TeacherService : ITeacherService
     // Update teacher
     public async Task UpdateTeacherAsync(Guid id, UpdateTeacherDto dto)
     {
+        // Check for null DTO first
+        if (dto == null)
+            throw new ArgumentNullException(nameof(dto));
+
         var teacher = await _unitOfWork.Teachers.GetByIdAsync(id);
 
         if (teacher == null)
@@ -95,6 +103,7 @@ public class TeacherService : ITeacherService
     // Delete teacher
     public async Task DeleteTeacherAsync(Guid id)
     {
+
         var teacher = await _unitOfWork.Teachers.GetByIdAsync(id);
 
         if (teacher == null)
