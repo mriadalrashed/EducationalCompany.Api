@@ -92,7 +92,9 @@ namespace EducationalCompany.Api.Application.Services
         private CourseDto MapToDto(Course course)
         {
             return new CourseDto
+
             {
+                Id = course.Id,
                 Name = course.Name,
                 Description = course.Description,
                 DurationHours = course.DurationHours,
