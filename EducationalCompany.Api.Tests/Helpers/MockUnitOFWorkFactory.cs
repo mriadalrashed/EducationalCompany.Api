@@ -1,20 +1,19 @@
 ﻿using EducationalCompany.Api.Domain.Entities;
 using EducationalCompany.Api.Infrastructure;
+using EducationalCompany.Api.Infrastructure.Repositories;
 using Moq;
 
-namespace EducationalCompany.Api.Tests.Helpers
-{
-    // Helper class to create mocked UnitOfWork for testing
-    public static class MockUnitOFWorkFactory
+// Helper class to create mocked UnitOfWork for testing
+    public static class MockUnitOFWorkFactory 
     {
         // Creates mocked UnitOfWork and CourseRepository
-        public static (Mock<IUnitOFWork>, Mock<ICourseRepository>) Create()
+        public static (Mock<IUnitOfWork>, Mock<ICourseRepository>) Create()
         {
             // Mock for Course repository
             var courseRepoMock = new Mock<ICourseRepository>();
 
             // Mock for UnitOfWork
-            var uowMock = new Mock<IUnitOFWork>();
+            var uowMock = new Mock<IUnitOfWork>();
 
             // Mock for Participant repository
             var mockParticipantRepo = new Mock<IParticipantRepository>();
@@ -30,4 +29,3 @@ namespace EducationalCompany.Api.Tests.Helpers
             return (uowMock, courseRepoMock);
         }
     }
-}
