@@ -2,6 +2,7 @@
 using EducationalCompany.Api.Application.Interfaces;
 using EducationalCompany.Api.Domain.Entities;
 using EducationalCompany.Api.Infrastructure;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EducationalCompany.Api.Application.Services;
 
@@ -25,7 +26,7 @@ public class CourseOccasionService : ICourseOccasionService
         var occasion = await _unitOfWork.CourseOccasions.GetByIdAsync(id);
 
         if (occasion == null)
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"CourseOccasions with id {id} was not found.");
 
         return await MapToDto(occasion);
     }
@@ -35,7 +36,7 @@ public class CourseOccasionService : ICourseOccasionService
         var course = await _unitOfWork.Courses.GetByIdAsync(dto.CourseId);
 
         if (course == null)
-            throw new KeyNotFoundException("Course not found");
+            throw new KeyNotFoundException($"CourseOccasions with id {dto.CourseId} was not found.");
 
         var occasion = new CourseOccasion(
             dto.CourseId,
@@ -109,12 +110,12 @@ public class CourseOccasionService : ICourseOccasionService
         var occasion = await _unitOfWork.CourseOccasions.GetByIdAsync(occasionId);
 
         if (occasion == null)
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"CourseOccasions with id '{occasionId}' was not found.");
 
         var teacher = await _unitOfWork.Teachers.GetByIdAsync(dto.TeacherId);
 
         if (teacher == null)
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"teacher with id '{dto.TeacherId}' was not found.");
 
         occasion.AssignTeacher(dto.TeacherId);
 
@@ -126,7 +127,7 @@ public class CourseOccasionService : ICourseOccasionService
         var occasion = await _unitOfWork.CourseOccasions.GetWithRegistrationsAsync(id);
 
         if (occasion == null)
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"CourseOccasions with id {id} was not found.");
 
         return await MapToDto(occasion);
     }
@@ -136,9 +137,10 @@ public class CourseOccasionService : ICourseOccasionService
         return await _unitOfWork.CourseOccasions.IsOccasionFullAsync(id);
     }
 
+    // Change from private to public and fix the method to not set properties directly
     public async Task<CourseOccasionDto> MapToDto(CourseOccasion occasion)
     {
-        return new CourseOccasionDto
+        var dto = new CourseOccasionDto
         {
             Id = occasion.Id,
             CourseId = occasion.CourseId,
@@ -149,17 +151,57 @@ public class CourseOccasionService : ICourseOccasionService
             CurrentParticipants = occasion.CurrentParticipants,
             IsFull = occasion.IsFull,
         };
+
+        // Instead of trying to set the navigation properties directly,
+        // we'll load the related entities separately
+
+        if (occasion.CourseId != Guid.Empty)
+        {
+            var course = await _unitOfWork.Courses.GetByIdAsync(occasion.CourseId);
+            if (course != null)
+            {
+                dto.Course = new CourseDto
+                {
+                    Id = course.Id,
+                    Name = course.Name,
+                    Description = course.Description,
+                    DurationHours = course.DurationHours,
+                    Price = course.Price,
+                };
+            }
+        }
+
+        if (occasion.TeacherId.HasValue && occasion.TeacherId.Value != Guid.Empty)
+        {
+            var teacher = await _unitOfWork.Teachers.GetByIdAsync(occasion.TeacherId.Value);
+            if (teacher != null)
+            {
+                dto.Teacher = new TeacherDto
+                {
+                    Id = teacher.Id,
+                    FirstName = teacher.FirstName,
+                    LastName = teacher.LastName,
+                    Email = teacher.Email,
+                    Phone = teacher.Phone,
+                    Specialization = teacher.Specialization,
+                    CreatedAt = teacher.CreatedAt,
+                    UpdatedAt = teacher.UpdatedAt
+                };
+            }
+        }
+
+        return dto;
     }
 
     private async Task<IEnumerable<CourseOccasionDto>> MapToDto(IEnumerable<CourseOccasion> occasions)
     {
-        var list = new List<CourseOccasionDto>();
+        var dtos = new List<CourseOccasionDto>();
 
         foreach (var occasion in occasions)
         {
-            list.Add(await MapToDto(occasion));
+            dtos.Add(await MapToDto(occasion));
         }
 
-        return list;
+        return dtos;
     }
 }
