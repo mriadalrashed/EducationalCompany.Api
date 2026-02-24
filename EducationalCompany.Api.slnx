@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="EducationalCompany.Api.Application/EducationalCompany.Api.Application.csproj" />
+  <Project Path="EducationalCompany.Api.Domain/EducationalCompany.Api.Domain.csproj" />
+  <Project Path="EducationalCompany.Api.Infrastructure/EducationalCompany.Api.Infrastructure.csproj" />
+  <Project Path="EducationalCompany.Api.Presentation/EducationalCompany.Api.Presentation.csproj" />
+  <Project Path="EducationalCompany.Api.Tests/EducationalCompany.Api.Tests.csproj" Id="4fa101d8-09b3-4cb2-a2f2-7d633a28a4e7">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
+</Solution>
