@@ -3,15 +3,16 @@
 // All tests have been reviewed, validated, and verified manually to ensure correctness
 // and proper coverage of the intended functionality.
 
-using EducationalCompany.Application.DTOs;
-using EducationalCompany.Application.Services;
-using EducationalCompany.Domain.Entities;
-using EducationalCompany.Infrastructure.Data;
+using EducationalCompany.Api.Application.DTOs;
+using EducationalCompany.Api.Application.Services;
+using EducationalCompany.Api.Domain.Entities;
+using EducationalCompany.Api.Infrastructure;
+using EducationalCompany.Api.Infrastructure.Data;
+using EducationalCompany.Api.Infrastructure.Repositories;
 using EducationalCompany.Infrastructure.Repositories;
-using EducationalCompany.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using System;
 using System.Linq;
@@ -128,7 +129,7 @@ namespace EducationalCompany.Tests.Integration.Services
             updatedParticipant.Email.ShouldBe(updateDto.Email);
             updatedParticipant.Phone.ShouldBe(updateDto.Phone);
             updatedParticipant.Address.ShouldBe(updateDto.Address);
-            updatedParticipant.UpdatedDate.ShouldNotBe(default);
+            updatedParticipant.UpdatedAt.ShouldNotBe(default);
         }
 
         [Fact]
@@ -153,8 +154,8 @@ namespace EducationalCompany.Tests.Integration.Services
             result.Email.ShouldBe(createDto.Email);
             result.Phone.ShouldBe(createDto.Phone);
             result.Address.ShouldBe(createDto.Address);
-            result.CreatedDate.ShouldNotBe(default);
-            result.UpdatedDate.ShouldBe(default);
+            result.CreatedAt.ShouldNotBe(default);
+            result.UpdatedAt.ShouldBe(default);
 
             var savedParticipant = await _unitOfWork.Participants.GetByIdAsync(result.Id);
             savedParticipant.ShouldNotBeNull();
