@@ -112,7 +112,7 @@ public class TeacherService : ITeacherService
 
         // Check if teacher is assigned to course occasions
         var occasions =
-            await _unitOfWork.CourseOccasions.GetByCourseIdAsync(id);
+            await _unitOfWork.CourseOccasions.GetByTeacherIdAsync(id);
 
         if (occasions.Any())
             throw new InvalidOperationException(
