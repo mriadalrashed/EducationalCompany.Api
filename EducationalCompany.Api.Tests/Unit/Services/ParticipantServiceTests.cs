@@ -3,10 +3,11 @@
 // All tests have been reviewed, validated, and verified manually to ensure correctness
 // and proper coverage of the intended functionality.
 
-using EducationalCompany.Application.DTOs;
-using EducationalCompany.Application.Services;
-using EducationalCompany.Domain.Entities;
-using EducationalCompany.Infrastructure;
+using EducationalCompany.Api.Application.DTOs;
+using EducationalCompany.Api.Application.Services;
+using EducationalCompany.Api.Domain.Entities;
+using EducationalCompany.Api.Infrastructure;
+using EducationalCompany.Api.Infrastructure.Repositories;
 using EducationalCompany.Infrastructure.Repositories;
 using Moq;
 using Shouldly;
@@ -481,8 +482,8 @@ namespace EducationalCompany.Tests.Unit.Services
             result.Email.ShouldBe(participant.Email);
             result.Phone.ShouldBe(participant.Phone);
             result.Address.ShouldBe(participant.Address);
-            result.CreatedDate.ShouldBe(participant.CreatedDate);
-            result.UpdatedDate.ShouldBe(participant.UpdatedDate);
+            result.CreatedAt.ShouldBe(participant.CreatedAt);
+            result.UpdatedAt.ShouldBe(participant.UpdatedAt);
         }
     }
 }
