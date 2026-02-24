@@ -5,7 +5,7 @@ using EducationalCompany.Api.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace EducationalCompany.Infrastructure.Repositories;
+namespace EducationalCompany.Api.Infrastructure.Repositories;
 
 // Repository contract for CourseOccasion entity
 public interface ICourseOccasionRepository : IRepository<CourseOccasion>
@@ -13,6 +13,7 @@ public interface ICourseOccasionRepository : IRepository<CourseOccasion>
     Task<IEnumerable<CourseOccasion>> GetByCourseIdAsync(Guid courseId); // Get occasions by course
     Task<IEnumerable<CourseOccasion>> GetUpcomingOccasionsAsync(); // Get upcoming occasions
     Task<CourseOccasion> GetWithRegistrationsAsync(Guid id); // Get occasion with registrations
+    Task<IEnumerable<CourseOccasion>> GetByTeacherIdAsync(Guid teacherId); // Get occasions by teacher
     Task<bool> IsOccasionFullAsync(Guid id); // Check if occasion is full
 }
 
@@ -90,6 +91,16 @@ public class CourseOccasionRepository : BaseRepository<CourseOccasion>, ICourseO
         }
 
         return occasion;
+    }
+
+    public async Task<IEnumerable<CourseOccasion>> GetByTeacherIdAsync(Guid teacherId)
+    {
+        return await _context.CourseOccasions
+        .Where(co => co.TeacherId == teacherId)
+        .Include(co => co.Course)
+        .Include(co => co.Teacher)
+        .OrderBy(co => co.StartDate)
+        .ToListAsync();
     }
 
     // Check if an occasion is full (with short-term caching)
