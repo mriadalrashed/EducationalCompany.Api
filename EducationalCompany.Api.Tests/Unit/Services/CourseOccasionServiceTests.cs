@@ -3,11 +3,11 @@
 // All tests have been reviewed, validated, and verified manually to ensure correctness
 // and proper coverage of the intended functionality.
 
-using EducationalCompany.Application.DTOs;
-using EducationalCompany.Application.Services;
-using EducationalCompany.Domain.Entities;
-using EducationalCompany.Infrastructure;
-using EducationalCompany.Infrastructure.Repositories;
+using EducationalCompany.Api.Application.DTOs;
+using EducationalCompany.Api.Application.Services;
+using EducationalCompany.Api.Domain.Entities;
+using EducationalCompany.Api.Infrastructure;
+using EducationalCompany.Api.Infrastructure.Repositories;
 using Moq;
 using Shouldly;
 using System;
@@ -172,7 +172,7 @@ namespace EducationalCompany.Tests.Unit.Services
             // Assert
             result.ShouldNotBeNull();
 
-            _mockCourseRepo.Verify(r => r.GetByIdAsync(courseId), Times.Exactly(2)); // Change from Once to Exactly(2)
+            _mockCourseRepo.Verify(r => r.GetByIdAsync(courseId), Times.Once); // Change from Once 
             _mockCourseOccasionRepo.Verify(r => r.AddAsync(It.IsAny<CourseOccasion>()), Times.Once);
         }
         [Fact]
@@ -358,7 +358,7 @@ namespace EducationalCompany.Tests.Unit.Services
             }
 
             // Act
-            var result = await _service.GetByCourseIdAsync(courseId);
+            var result = await _service.GetOccasionsByCourseIdAsync(courseId);
 
             // Assert
             result.ShouldNotBeNull();
@@ -386,7 +386,7 @@ namespace EducationalCompany.Tests.Unit.Services
             }
 
             // Act
-            var result = await _service.GetUpcomingOccasionsAsync();
+            var result = await _service.GetUpComingOccasionsAsync();
 
             // Assert
             result.ShouldNotBeNull();
