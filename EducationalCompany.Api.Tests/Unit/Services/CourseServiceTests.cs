@@ -1,7 +1,8 @@
-﻿using EducationalCompany.Application.DTOs;
-using EducationalCompany.Application.Services;
-using EducationalCompany.Domain.Entities;
-using EducationalCompany.Domain.Interfaces;
+﻿using EducationalCompany.Api.Application.DTOs;
+using EducationalCompany.Api.Application.Services;
+using EducationalCompany.Api.Domain.Entities;
+using EducationalCompany.Api.Domain.Interfaces;
+using EducationalCompany.Api.Infrastructure.Repositories;
 using EducationalCompany.Infrastructure.Repositories;
 using FluentAssertions;
 using Moq;
@@ -18,7 +19,7 @@ public class CourseServiceTests
 
     public CourseServiceTests()
     {
-        var (uowMock, courseRepoMock) = MockUnitOfWorkFactory.Create();
+        var (uowMock, courseRepoMock) = MockUnitOFWorkFactory.Create();
         _courseRepoMock = courseRepoMock;
         _service = new CourseService(uowMock.Object);
     }
