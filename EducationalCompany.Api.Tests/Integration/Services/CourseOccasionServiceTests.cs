@@ -3,14 +3,13 @@
 // All tests have been reviewed, validated, and verified manually to ensure correctness
 // and proper coverage of the intended functionality.
 
+using EducationalCompany.Api.Application.DTOs;
+using EducationalCompany.Api.Application.Interfaces;
+using EducationalCompany.Api.Application.Services;
 using EducationalCompany.Api.Domain.Entities;
-using EducationalCompany.Application.DTOs;
-using EducationalCompany.Application.Interfaces;
-using EducationalCompany.Application.Services;
-using EducationalCompany.Domain.Entities;
-using EducationalCompany.Infrastructure;
-using EducationalCompany.Infrastructure.Data;
-using EducationalCompany.Infrastructure.Repositories;
+using EducationalCompany.Api.Infrastructure;
+using EducationalCompany.Api.Infrastructure.Data;
+using EducationalCompany.Api.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Caching.Memory;
@@ -237,7 +236,7 @@ namespace EducationalCompany.Tests.Integration.Services
             await _context.SaveChangesAsync();
 
             // Act
-            var results = (await _service.GetByCourseIdAsync(course1.Id)).ToList();
+            var results = (await _service.GetOccasionsByCourseIdAsync(course1.Id)).ToList();
 
             // Assert
             results.Count.ShouldBe(2);
@@ -260,7 +259,7 @@ namespace EducationalCompany.Tests.Integration.Services
             await _context.SaveChangesAsync();
 
             // Act
-            var results = (await _service.GetUpcomingOccasionsAsync()).ToList();
+            var results = (await _service.GetUpComingOccasionsAsync()).ToList();
 
             // Assert
             results.Count.ShouldBe(2);
