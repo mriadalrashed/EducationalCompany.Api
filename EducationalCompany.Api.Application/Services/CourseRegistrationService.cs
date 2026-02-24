@@ -251,70 +251,61 @@ public class CourseRegistrationService : ICourseRegistrationService
     }
 
     // Map entity to DTO (including related data)
-    private async Task<CourseRegistrationDto>
-        MapToDto(CourseRegistration r)
+    public async Task<CourseRegistrationDto> MapToDto(CourseRegistration registration)
     {
-        var dto = new CourseRegistrationDto {
-            Id = r.Id,
-            ParticipantId = r.ParticipantId,
-            CourseOccasionId = r.CourseOccasionId,
-            Status = r.Status,
-            RegistrationDate = r.RegistrationDate,
-            ConfirmedAt = r.ConfirmedAt,
-            CancelledAt = r.CancelledAt,
-            CreatedAt = r.CreatedAt,
-            UpdatedAt = r.UpdatedAt
+        var dto = new CourseRegistrationDto
+        {
+            Id = registration.Id,
+            ParticipantId = registration.ParticipantId,
+            CourseOccasionId = registration.CourseOccasionId,
+            RegistrationDate = registration.RegistrationDate,
+            Status = registration.Status,
+            ConfirmedAt = registration.ConfirmedAt,
+            CancelledAt = registration.CancelledAt,
+            CreatedAt = registration.CreatedAt,
+            UpdatedAt = registration.UpdatedAt
         };
 
-        // Load participant details
-        if (r.ParticipantId != Guid.Empty)
+        // Load participant data
+        if (registration.ParticipantId != Guid.Empty)
         {
-            var p =
-                await _unitOfWork.Participants
-                    .GetByIdAsync(r.ParticipantId);
-
-            if (p != null)
+            var participant = await _unitOfWork.Participants.GetByIdAsync(registration.ParticipantId);
+            if (participant != null)
             {
                 dto.Participant = new ParticipantDto
                 {
-                    Id = p.Id,
-                    FirstName = p.FirstName,
-                    LastName = p.LastName,
-                    Email = p.Email,
-                    Phone = p.Phone,
-                    Address = p.Address,
-                    UpdatedAt = p.UpdatedAt,
-                    CreatedAt = p.CreatedAt
+                    Id = participant.Id,
+                    FirstName = participant.FirstName,
+                    LastName = participant.LastName,
+                    Email = participant.Email,
+                    Phone = participant.Phone,
+                    Address = participant.Address,
+                    CreatedAt = participant.CreatedAt,
+                    UpdatedAt = participant.UpdatedAt
                 };
             }
         }
 
-        // Load occasion details
-        if (r.CourseOccasionId != Guid.Empty)
+        // Load course occasion data
+        if (registration.CourseOccasionId != Guid.Empty)
         {
-            var O =
-                await _unitOfWork.CourseOccasions
-                    .GetByIdAsync(r.CourseOccasionId);
-
-            if (O != null)
+            var occasion = await _unitOfWork.CourseOccasions.GetByIdAsync(registration.CourseOccasionId);
+            if (occasion != null)
             {
-                dto.CourseOccasion =
-                    await _courseoccasisonservice.MapToDto(O);
+                dto.CourseOccasion = await _courseoccasisonservice.MapToDto(occasion);
             }
         }
 
         return dto;
     }
 
-    // Map list of registrations
-    private async Task<IEnumerable<CourseRegistrationDto>>
-        MapToDtoList(IEnumerable<CourseRegistration> r)
+    private async Task<IEnumerable<CourseRegistrationDto>> MapToDtoList(IEnumerable<CourseRegistration> registrations)
     {
         var dtos = new List<CourseRegistrationDto>();
 
-        foreach (var c in r)
+        foreach (var registration in registrations)
         {
-            dtos.Add(await MapToDto(c));
+            dtos.Add(await MapToDto(registration));
         }
 
         return dtos;
