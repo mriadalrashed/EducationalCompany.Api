@@ -3,12 +3,13 @@
 // All tests have been reviewed, validated, and verified manually to ensure correctness
 // and proper coverage of the intended functionality.
 
+using EducationalCompany.Api.Application.DTOs;
+using EducationalCompany.Api.Application.Interfaces;
+using EducationalCompany.Api.Application.Services;
 using EducationalCompany.Api.Domain.Entities;
-using EducationalCompany.Application.DTOs;
-using EducationalCompany.Application.Interfaces;
-using EducationalCompany.Application.Services;
-using EducationalCompany.Domain.Entities;
-using EducationalCompany.Infrastructure;
+using EducationalCompany.Api.Domain.Entities;
+using EducationalCompany.Api.Infrastructure;
+using EducationalCompany.Api.Infrastructure.Repositories;
 using EducationalCompany.Infrastructure.Repositories;
 using Moq;
 using Shouldly;
@@ -313,7 +314,7 @@ namespace EducationalCompany.Tests.Unit.Services
                 .ReturnsAsync(registration);
 
             // Act
-            await _service.UpdateRegistrationStatusAsync(registrationId, updateDto);
+            await _service.UpdateRegistrationsStatusAsync(registrationId, updateDto);
 
             // Assert
             registration.Status.ShouldBe("Confirmed");
@@ -346,7 +347,7 @@ namespace EducationalCompany.Tests.Unit.Services
             _mockUnitOfWork.Setup(u => u.CommitTransactionAsync()).Returns(Task.CompletedTask);
 
             // Act
-            await _service.UpdateRegistrationStatusAsync(registrationId, updateDto);
+            await _service.UpdateRegistrationsStatusAsync(registrationId, updateDto);
 
             // Assert
             registration.Status.ShouldBe("Cancelled");
@@ -370,7 +371,7 @@ namespace EducationalCompany.Tests.Unit.Services
 
             // Act & Assert
             var exception = await Should.ThrowAsync<ArgumentException>(async () =>
-                await _service.UpdateRegistrationStatusAsync(registrationId, updateDto));
+                await _service.UpdateRegistrationsStatusAsync(registrationId, updateDto));
 
             exception.Message.ShouldContain("Invalid status");
         }
