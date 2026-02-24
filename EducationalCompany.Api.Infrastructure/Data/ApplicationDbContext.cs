@@ -52,6 +52,7 @@ namespace EducationalCompany.Api.Infrastructure.Data
                 entity.HasOne(e => e.Teacher)
                       .WithMany(t => t.CourseOccasions)
                       .HasForeignKey(e => e.TeacherId)
+                      .IsRequired(false)
                       .OnDelete(DeleteBehavior.SetNull);
             });
 
@@ -82,8 +83,8 @@ namespace EducationalCompany.Api.Infrastructure.Data
             {
                 entity.Property(e => e.RegistrationDate).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
-                entity.Property(e => e.ConfirmedAt).IsRequired();
-                entity.Property(e => e.CancelledAt).IsRequired();
+                entity.Property(e => e.ConfirmedAt).IsRequired(false);
+                entity.Property(e => e.CancelledAt).IsRequired(false);
 
                 // Relationship with Participant
                 entity.HasOne(e => e.Participant)
