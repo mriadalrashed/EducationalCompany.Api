@@ -28,3 +28,31 @@ namespace EducationalCompany.Api.Infrastructure.Extensions
         }
     }
 }
+
+/*
+using EducationalCompany.Api.Infrastructure;
+using EducationalCompany.Api.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace EducationalCompany.Api.Infrastructure.Extensions;
+
+public static class ServiceExtensions
+{
+    public static IServiceCollection AddInfrastructureServices(
+    this IServiceCollection services,
+    IConfiguration configuration)
+    {
+        // Add SQL Server Database
+        services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(
+        configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+
+        // Add Unit of Work
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        return services;
+    }
+}*/
