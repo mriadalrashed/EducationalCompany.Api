@@ -1,6 +1,5 @@
 ﻿using EducationalCompany.Api.Infrastructure.Data;
 using EducationalCompany.Api.Infrastructure.Repositories;
-using EducationalCompany.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Caching.Memory;
 
