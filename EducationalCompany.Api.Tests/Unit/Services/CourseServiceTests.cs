@@ -3,7 +3,6 @@ using EducationalCompany.Api.Application.Services;
 using EducationalCompany.Api.Domain.Entities;
 using EducationalCompany.Api.Domain.Interfaces;
 using EducationalCompany.Api.Infrastructure.Repositories;
-using EducationalCompany.Infrastructure.Repositories;
 using FluentAssertions;
 using Moq;
 using System;
