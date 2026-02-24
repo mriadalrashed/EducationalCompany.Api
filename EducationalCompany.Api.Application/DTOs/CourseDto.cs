@@ -8,8 +8,8 @@
         public string Description { get; set; }
         public int DurationHours { get; set; }
         public decimal Price { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        //public DateTime CreatedAt { get; set; }
+        //public DateTime UpdatedAt { get; set; }
     }
 
     // DTO used when creating a new course
