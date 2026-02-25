@@ -296,6 +296,21 @@ dotnet run --project EducationalCompany.Api.Presentation
 
 ---
 
+## 🤖 AI Usage Disclosure
+
+AI tools were used as a productivity aid during development, particularly for refining code comments and improving documentation clarity, as well as assisting in structuring unit and integration tests.
+
+All implementation, architectural decisions, and final validation were performed and reviewed by the project author to ensure correctness and full technical understanding.
+
+
+---
+
 ## 📘 About This Project
 
 Developed as part of an academic software engineering course, this project demonstrates practical proficiency in C#, PostgreSQL database design, Clean Architecture principles, domain-driven design concepts, and automated testing strategies.
+---
+
+
+## 📄 License
+
+This project is for academic and educational purposes only.
